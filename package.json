@@ -1,0 +1,27 @@
+{
+  "name": "backend-bricks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "npx nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "@nats-io/jetstream": "^3.0.2",
+    "@nats-io/kv": "^3.0.2",
+    "@nats-io/transport-node": "^3.0.2",
+    "express": "^5.1.0",
+    "graphql": "^16.11.0",
+    "graphql-http": "^1.22.4",
+    "node-cron": "^3.0.3",
+    "ruru": "^2.0.0-beta.22",
+    "ulid": "^3.0.0"
+  }
+}
