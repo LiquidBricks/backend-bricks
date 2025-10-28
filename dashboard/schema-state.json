@@ -1,0 +1,377 @@
+{
+  "nodes": [
+    {
+      "id": "vertex-component-ov4s1g",
+      "type": "schemaNode",
+      "position": {
+        "x": 278.5,
+        "y": 348.51666259765625
+      },
+      "data": {
+        "label": "component",
+        "kind": "vertex"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 278.5,
+        "y": 348.51666259765625
+      },
+      "dragging": false
+    },
+    {
+      "id": "vertex-data-g1waok",
+      "type": "schemaNode",
+      "position": {
+        "x": 863.3868,
+        "y": 209.88539389648435
+      },
+      "data": {
+        "label": "data",
+        "kind": "vertex"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 863.3868,
+        "y": 209.88539389648435
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-has_data-ea5b88",
+      "type": "schemaNode",
+      "position": {
+        "x": 585.6788,
+        "y": 206.90699389648438
+      },
+      "data": {
+        "label": "has_data",
+        "kind": "edge"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 585.6788,
+        "y": 206.90699389648438
+      },
+      "dragging": false
+    },
+    {
+      "id": "vertex-deferred-6kjugu",
+      "type": "schemaNode",
+      "position": {
+        "x": 867.5747999999999,
+        "y": 334.16459389648446
+      },
+      "data": {
+        "label": "deferred",
+        "kind": "vertex"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 867.5747999999999,
+        "y": 334.16459389648446
+      },
+      "dragging": false
+    },
+    {
+      "id": "vertex-task-z5uq5j",
+      "type": "schemaNode",
+      "position": {
+        "x": 879.3324,
+        "y": 453.5605938964844
+      },
+      "data": {
+        "label": "task",
+        "kind": "vertex"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 879.3324,
+        "y": 453.5605938964844
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-has_deferred-9bqc6m",
+      "type": "schemaNode",
+      "position": {
+        "x": 594.75,
+        "y": 340.1277938964844
+      },
+      "data": {
+        "label": "has_deferred",
+        "kind": "edge"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 594.75,
+        "y": 340.1277938964844
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-has_task-mk0557",
+      "type": "schemaNode",
+      "position": {
+        "x": 603.2564,
+        "y": 459.4501938964844
+      },
+      "data": {
+        "label": "has_task",
+        "kind": "edge"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 603.2564,
+        "y": 459.4501938964844
+      },
+      "dragging": false
+    },
+    {
+      "id": "vertex-componentInstance-lipvms",
+      "type": "schemaNode",
+      "position": {
+        "x": -414.6496625899229,
+        "y": -103.01618230118544
+      },
+      "data": {
+        "label": "componentInstance",
+        "kind": "vertex"
+      },
+      "width": 179,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -414.6496625899229,
+        "y": -103.01618230118544
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-instance_of-bmltam",
+      "type": "schemaNode",
+      "position": {
+        "x": 80.96335084335959,
+        "y": 352.0681011103985
+      },
+      "data": {
+        "label": "instance_of",
+        "kind": "edge"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 80.96335084335959,
+        "y": 352.0681011103985
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-has_dependency-qzqjd3",
+      "type": "schemaNode",
+      "position": {
+        "x": 1155.9769447039998,
+        "y": 294.8502219337345
+      },
+      "data": {
+        "label": "has_dependency",
+        "kind": "edge"
+      },
+      "width": 156,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1155.9769447039998,
+        "y": 294.8502219337345
+      },
+      "dragging": false
+    },
+    {
+      "id": "edge-has_state-w0jrff",
+      "type": "schemaNode",
+      "position": {
+        "x": -148.44544211546489,
+        "y": -101.54392849397715
+      },
+      "data": {
+        "label": "has_state",
+        "kind": "edge"
+      },
+      "width": 150,
+      "height": 46,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -148.44544211546489,
+        "y": -101.54392849397715
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "vertex-component-ov4s1g",
+      "sourceHandle": null,
+      "target": "edge-has_data-ea5b88",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-component-ov4s1g-edge-has_data-ea5b88",
+      "type": "schemaEdge",
+      "data": {},
+      "selected": false
+    },
+    {
+      "source": "edge-has_data-ea5b88",
+      "sourceHandle": null,
+      "target": "vertex-data-g1waok",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_data-ea5b88-vertex-data-g1waok",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-component-ov4s1g",
+      "sourceHandle": null,
+      "target": "edge-has_deferred-9bqc6m",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-component-ov4s1g-edge-has_deferred-9bqc6m",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-component-ov4s1g",
+      "sourceHandle": null,
+      "target": "edge-has_task-mk0557",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-component-ov4s1g-edge-has_task-mk0557",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "edge-has_deferred-9bqc6m",
+      "sourceHandle": null,
+      "target": "vertex-deferred-6kjugu",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_deferred-9bqc6m-vertex-deferred-6kjugu",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "edge-has_task-mk0557",
+      "sourceHandle": null,
+      "target": "vertex-task-z5uq5j",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_task-mk0557-vertex-task-z5uq5j",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-componentInstance-lipvms",
+      "sourceHandle": null,
+      "target": "edge-instance_of-bmltam",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-componentInstance-lipvms-edge-instance_of-bmltam",
+      "type": "schemaEdge",
+      "data": {},
+      "selected": false
+    },
+    {
+      "source": "edge-instance_of-bmltam",
+      "sourceHandle": null,
+      "target": "vertex-component-ov4s1g",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-instance_of-bmltam-vertex-component-ov4s1g",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-data-g1waok",
+      "sourceHandle": null,
+      "target": "edge-has_dependency-qzqjd3",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-data-g1waok-edge-has_dependency-qzqjd3",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-task-z5uq5j",
+      "sourceHandle": null,
+      "target": "edge-has_dependency-qzqjd3",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-task-z5uq5j-edge-has_dependency-qzqjd3",
+      "selected": false,
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "edge-has_dependency-qzqjd3",
+      "sourceHandle": null,
+      "target": "vertex-deferred-6kjugu",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_dependency-qzqjd3-vertex-deferred-6kjugu",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "edge-has_dependency-qzqjd3",
+      "sourceHandle": null,
+      "target": "vertex-task-z5uq5j",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_dependency-qzqjd3-vertex-task-z5uq5j",
+      "type": "schemaEdge",
+      "data": {}
+    },
+    {
+      "source": "vertex-componentInstance-lipvms",
+      "sourceHandle": null,
+      "target": "edge-has_state-w0jrff",
+      "targetHandle": null,
+      "id": "reactflow__edge-vertex-componentInstance-lipvms-edge-has_state-w0jrff",
+      "type": "schemaEdge",
+      "data": {},
+      "selected": false
+    },
+    {
+      "type": "schemaEdge",
+      "source": "edge-has_dependency-qzqjd3",
+      "sourceHandle": null,
+      "target": "vertex-data-g1waok",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_dependency-qzqjd3-vertex-data-g1waok"
+    },
+    {
+      "source": "edge-has_state-w0jrff",
+      "sourceHandle": null,
+      "target": "vertex-data-g1waok",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_state-w0jrff-vertex-data-g1waok"
+    },
+    {
+      "source": "edge-has_state-w0jrff",
+      "sourceHandle": null,
+      "target": "vertex-task-z5uq5j",
+      "targetHandle": null,
+      "id": "reactflow__edge-edge-has_state-w0jrff-vertex-task-z5uq5j"
+    }
+  ],
+  "viewport": {
+    "x": 538.4846309617969,
+    "y": 354.90992318160954,
+    "zoom": 0.9049437749884138
+  },
+  "autosaveEnabled": true,
+  "reason": "node-deleted",
+  "savedAt": "2025-09-30T06:07:29.136Z"
+}
