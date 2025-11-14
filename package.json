@@ -6,22 +6,30 @@
     "doc": "docs"
   },
   "scripts": {
+    "test": "clear && node --env-file=.env test/run.js",
     "start": "node index.js",
-    "dev": "npx nodemon index.js"
+    "dev": "npx nodemon index.js",
+    "migrate": "node migrations/run.mjs",
+    "migrate:create": "node migrations/create.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "type": "module",
   "dependencies": {
+    "@liquid-bricks/nats-graph": "github:LiquidBricks/nats-graph#51800d3e2931902e0eb585a541d7f29b06685174",
+    "@liquid-bricks/shared-providers": "github:LiquidBricks/shared-providers#c7d0fd2de4fd19e9b11fe63e30157d0f637b5486",
     "@nats-io/jetstream": "^3.0.2",
     "@nats-io/kv": "^3.0.2",
     "@nats-io/transport-node": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^5.1.0",
     "graphql": "^16.11.0",
     "graphql-http": "^1.22.4",
     "node-cron": "^3.0.3",
-    "ruru": "^2.0.0-beta.22",
-    "ulid": "^3.0.0"
+    "ruru": "^2.0.0-rc.1",
+    "ulid": "^3.0.0",
+    "umzug": "^3.3.1"
   }
 }

@@ -10,18 +10,19 @@ export const PageInfoType = new GraphQLObjectType({
   }),
 });
 
-export function createEdgeType(name, nodeType) {
+export function createEdgeType(name, nodeType, edgeFields = {}) {
   return new GraphQLObjectType({
     name: `${name}Edge`,
     fields: () => ({
       node: { type: new GraphQLNonNull(nodeType) },
       cursor: { type: new GraphQLNonNull(GraphQLString) },
+      ...edgeFields,
     }),
   });
 }
 
-export function createConnectionType(name, nodeType) {
-  const edgeType = createEdgeType(name, nodeType);
+export function createConnectionType(name, nodeType, edgeFields = {}) {
+  const edgeType = createEdgeType(name, nodeType, edgeFields);
   const connectionType = new GraphQLObjectType({
     name: `${name}Connection`,
     fields: () => ({

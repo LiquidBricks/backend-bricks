@@ -1,21 +1,21 @@
 {
-  "name": "fullflow-dashboard",
-  "version": "0.0.1",
+  "name": "backend-bricks",
+  "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "next dev --hostname 0.0.0.0 --port 64209",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.7.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2"
+    "next": "14.2.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "reactflow": "11.11.4"
   },
   "devDependencies": {
-    "vite": "^5.4.2",
-    "@vitejs/plugin-react": "^4.3.1"
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5"
   }
 }
