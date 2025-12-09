@@ -1,82 +1,79 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql'
-import { component } from '../../../types/component/index.js'
-import { data as dataType } from '../../../types/component/data/index.js'
-import { task as taskType } from '../../../types/component/task/index.js'
 import { createConnectionType, toConnection } from '../../common/relay.js'
+import { domain } from '../../../domain/index.js'
+import { field as data } from './data.js';
+import { field as tasks } from './tasks.js';
+import { field as deferred } from './deferred.js';
+import { field as imports } from './imports.js';
 
-
-
-const componentDataNodeType = new GraphQLObjectType({
-  name: 'ComponentDataNode',
+export const componentSpecType = new GraphQLObjectType({
+  name: 'ComponentSpec',
   fields: () => ({
-    name: { type: GraphQLString },
-    deps: { type: new GraphQLNonNull(ComponentDepsConnection) },
-    fnc: { type: GraphQLString },
+    createdAt: {
+      type: GraphQLString,
+      resolve: async (id, _args, { g }) => {
+        const rows = await g.V(id).valueMap('createdAt');
+        const first = Array.isArray(rows) ? rows[0] : null;
+        return first?.createdAt ?? null;
+      },
+    },
+    updatedAt: {
+      type: GraphQLString,
+      resolve: async (id, _args, { g }) => {
+        const rows = await g.V(id).valueMap('updatedAt');
+        const first = Array.isArray(rows) ? rows[0] : null;
+        return first?.updatedAt ?? null;
+      },
+    },
+    name: {
+      type: GraphQLString,
+      resolve: async (id, _args, { g }) => {
+        const rows = await g.V(id).valueMap('name');
+        const first = Array.isArray(rows) ? rows[0] : null;
+        return first?.name ?? null;
+      }
+    },
+    hash: {
+      type: GraphQLString,
+      resolve: async (id, _args, { g }) => {
+        const rows = await g.V(id).valueMap('hash');
+        const first = Array.isArray(rows) ? rows[0] : null;
+        return first?.hash ?? null;
+      }
+    },
+    data,
+    tasks,
+    deferred,
+    imports,
   }),
 });
 
-const componentTaskNodeType = new GraphQLObjectType({
-  name: 'ComponentTaskNode',
-  fields: () => ({
-    name: { type: GraphQLString },
-    deps: { type: new GraphQLNonNull(ComponentDepsConnection) },
-    fnc: { type: GraphQLString },
-  }),
-});
-
-const componentInternalType = new GraphQLObjectType({
-  name: 'ComponentInternal',
-  fields: () => ({
-    name: { type: GraphQLString },
-    hash: { type: GraphQLString },
-    data: { type: new GraphQLNonNull(ComponentDataConnection) },
-    tasks: { type: new GraphQLNonNull(ComponentTaskConnection) },
-  }),
-});
-
-function normalizeNodeEntry({ name, fnc, deps }) {
-  const depsArr = Array.isArray(deps) ? deps : Array.from(deps || []);
-  return { name, deps: toConnection(depsArr), fnc };
-}
-
-export const componentField = {
-  type: componentInternalType,
+export const componentSpecField = {
+  type: componentSpecType,
   args: {
-    id: { type: GraphQLString },
+    hash: { type: GraphQLString },
   },
-  resolve: async (_, { id }) => {
-    const comp = await component.V(id).get();
-    // Fetch nodes via task/data types; no adjacency
-    const tNodes = await taskType.list(id).catch(() => []);
-    const dNodes = await dataType.list(id).catch(() => []);
-    return {
-      ...comp,
-      data: toConnection(dNodes.map(normalizeNodeEntry).filter(Boolean)),
-      tasks: toConnection(tNodes.map(normalizeNodeEntry).filter(Boolean)),
-    };
+  resolve: async (_src, { hash }, { g }) => {
+    return (await g.V().has('label', domain.vertex.component.constants.LABEL).has('hash', hash).id()).shift()
   },
 }
 
-const { connectionType: ComponentsConnection } = createConnectionType('Component', componentInternalType);
-const { connectionType: ComponentDataConnection } = createConnectionType('ComponentData', componentDataNodeType);
-const { connectionType: ComponentTaskConnection } = createConnectionType('ComponentTask', componentTaskNodeType);
-const { connectionType: ComponentDepsConnection } = createConnectionType('ComponentDeps', GraphQLString);
 
-export const componentsField = {
-  type: new GraphQLNonNull(ComponentsConnection),
+const { connectionType: ComponentSpecsConnection } = createConnectionType('ComponentSpec', componentSpecType)
+
+export const componentSpecsField = {
+  type: new GraphQLNonNull(ComponentSpecsConnection),
   args: {
     first: { type: GraphQLInt },
     after: { type: GraphQLString },
   },
-  resolve: async (_, args) => {
-    const rows = await component.list();
-    const normalized = rows
-      .filter(Boolean)
-      .map(raw => ({
-        ...raw,
-        data: toConnection(Array.isArray(raw.data) ? raw.data.map(normalizeNodeEntry).filter(Boolean) : []),
-        tasks: toConnection(Array.isArray(raw.tasks) ? raw.tasks.map(normalizeNodeEntry).filter(Boolean) : []),
-      }));
-    return toConnection(normalized, args);
-  }
+  resolve: async (_src, args, { g }) => toConnection(
+    await g.V().has('label', domain.vertex.component.constants.LABEL).id(),
+    args,
+  )
+}
+
+export const query = {
+  componentSpecs: componentSpecsField,
+  componentSpec: componentSpecField
 }
