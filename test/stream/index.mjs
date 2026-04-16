@@ -2,9 +2,9 @@ import test, { before, after } from 'node:test'
 import assert from 'node:assert/strict'
 
 import { createStream } from '../../stream/index.js'
-import { diagnostics as makeDiagnostics } from '@liquid-bricks/shared-providers/diagnostics'
+import { diagnostics as makeDiagnostics } from '@liquid-bricks/lib-diagnostics'
 import { Codes } from '../../codes.js'
-import { createNatsContext } from '@liquid-bricks/shared-providers/nats-context'
+import createNatsContext from '@liquid-bricks/lib-nats-context';
 import { serviceConfiguration } from '../../provider/serviceConfiguration/dotenv/index.js'
 
 const { NATS_IP_ADDRESS } = serviceConfiguration()

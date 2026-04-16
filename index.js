@@ -1,26 +1,24 @@
 import { createHandler } from 'graphql-http/lib/use/express';
-import { ruruHTML } from 'ruru/server';
 import express from 'express';
 import cors from 'cors';
 import cron from 'node-cron'
 import { createServer } from 'node:http'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { schema } from './graphql/index.js';
-import { componentServiceConsumer } from './consumer/componentService/index.js';
-import { diagnosticsConsumer } from './consumer/diagnostics/index.js';
-import { componentDispatcher } from './consumer/componentDispatcher/index.js';
-import { Graph } from '@liquid-bricks/nats-graph/graph';
-import { createNatsContext } from '@liquid-bricks/shared-providers/nats-context';
-import { diagnostics as createDiagnostics } from '@liquid-bricks/shared-providers/diagnostics'
-import { createNatsMetrics } from '@liquid-bricks/shared-providers/diagnostics/metrics/nats'
-import { createNatsLogger } from '@liquid-bricks/shared-providers/diagnostics/loggers/nats'
-import { create as createTelemetrySubject } from '@liquid-bricks/shared-providers/subject/create/telemetry'
+import { schema } from '@liquid-bricks/iface-graphql/schema';
+import { Consumer as orchestrator } from '@liquid-bricks/svc-component-orchestrator/consumer';
+import { collector } from '@liquid-bricks/obs-collector/collector';
+import { gateway } from '@liquid-bricks/gw-ws-components/gateway';
+import { Graph } from '@liquid-bricks/lib-nats-graph/graph';
+import createNatsContext from '@liquid-bricks/lib-nats-context';
+import { diagnostics as createDiagnostics } from '@liquid-bricks/lib-diagnostics'
+import { createNatsMetrics } from '@liquid-bricks/lib-diagnostics/metrics/nats'
+import { createNatsLogger } from '@liquid-bricks/lib-diagnostics/loggers/nats'
+import { create as createTelemetrySubject } from '@liquid-bricks/lib-nats-subject/create/telemetry'
 import { serviceConfiguration } from './provider/serviceConfiguration/dotenv/index.js'
 import { RetentionPolicy } from '@nats-io/jetstream'
 import { createStream as createGenericStream } from './stream/index.js'
 import { resetNatsFactoryDefaults } from './stream/helper.js';
-import { domain } from './domain/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -50,7 +48,9 @@ cron.schedule('*/1 * * * *', () => {
 console.log(`Current time ${formattedTimestamp()}`)
 
 
-const { NATS_IP_ADDRESS } = serviceConfiguration()
+const { NATS_IP_ADDRESS, PORT } = serviceConfiguration()
+const parsedPort = Number(PORT)
+const port = Number.isFinite(parsedPort) && PORT !== '' ? parsedPort : 4000
 const natsContext = createNatsContext({ servers: NATS_IP_ADDRESS })
 const diagnostics = createDiagnostics({
   context: () => ({ env: 'prod', service: 'backend-bricks' }),
@@ -82,22 +82,23 @@ const graph = Graph({
 Promise.resolve()
   // Recreate streams defined in migrations to ensure desired config
   .then(async () => {
+    // await resetNatsFactoryDefaults({ natsContext })
     const jsm = await natsContext.jetstreamManager();
 
-    //   // DIAGNOSTICS_STREAM
-    //   try { await jsm.streams.delete('DIAGNOSTICS_STREAM'); } catch (_) { /* ignore if not found */ }
-    //   await createGenericStream({
-    //     name: 'DIAGNOSTICS_STREAM',
-    //     natsContext,
-    //     diagnostics,
-    //     configuration: {
-    //       retention: RetentionPolicy.Workqueue,
-    //       subjects: [
-    //         'tele.>',
-    //         'metrics.>',
-    //       ],
-    //     },
-    //   });
+    // DIAGNOSTICS_STREAM
+    try { await jsm.streams.delete('DIAGNOSTICS_STREAM'); } catch (_) { /* ignore if not found */ }
+    await createGenericStream({
+      name: 'DIAGNOSTICS_STREAM',
+      natsContext,
+      diagnostics,
+      configuration: {
+        retention: RetentionPolicy.Workqueue,
+        subjects: [
+          'tele.>',
+          'metrics.>',
+        ],
+      },
+    });
     try { await jsm.streams.delete('COMPONENT_EXECUTION_STREAM'); } catch (_) { /* ignore if not found */ }
     await createGenericStream({
       name: 'COMPONENT_EXECUTION_STREAM',
@@ -118,7 +119,7 @@ Promise.resolve()
       natsContext,
       diagnostics,
       configuration: {
-        retention: RetentionPolicy.Workqueue,
+        retention: RetentionPolicy.Interest,
         subjects: [
           'prod.component-service.*.*.evt.>',
           'prod.component-service.*.*.cmd.>',
@@ -131,13 +132,13 @@ Promise.resolve()
     //   console.warn('Failed to purge COMPONENT_MANAGER_STREAM', err);
     // }
   })
-  .then(() => componentServiceConsumer({
+  .then(() => orchestrator({
     streamName: "COMPONENT_MANAGER_STREAM",
     natsContext,
     g: graph.g,
     diagnostics,
   }))
-  .then(() => diagnosticsConsumer({
+  .then(() => collector({
     streamName: "DIAGNOSTICS_STREAM",
     natsContext,
     diagnostics,
@@ -186,19 +187,10 @@ Promise.resolve()
       }),
     );
 
-    // Expose domain meta from domain/index.js
-    app.get('/domain', (_req, res) => {
-      try {
-        res.json(domain);
-      } catch (e) {
-        res.status(500).json({ error: e?.message ?? String(e) });
-      }
-    });
-
-    app.get('/ruru', (_req, res) => {
-      res.type('html');
-      res.end(ruruHTML({ endpoint: '/graphql' }));
-    });
+    // app.get('/ruru', (_req, res) => {
+    //   res.type('html');
+    //   res.end(ruruHTML({ endpoint: '/graphql' }));
+    // });
 
     app.get('/mermaid', (_req, res) => {
       res.sendFile(mermaidPagePath);
@@ -206,14 +198,14 @@ Promise.resolve()
 
     const server = createServer(app);
 
-    await componentDispatcher({
+    await gateway({
       server,
       streamName: "COMPONENT_EXECUTION_STREAM",
       natsContext,
       diagnostics,
     });
 
-    server.listen(4000);
+    server.listen(port);
     return server;
   })
-  .then(() => console.log('Running a GraphQL API server at http://localhost:4000/graphql'))
+  .then(() => console.log(`Running a GraphQL API server at http://localhost:${port}/graphql`))

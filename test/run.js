@@ -22,8 +22,6 @@ const fileStream = fs.createWriteStream(outputFile)
 const stream = run({
   concurrency: true,
   globPatterns: [
-    path.resolve(import.meta.dirname, 'graphql', '**/*.mjs'),
-    path.resolve(import.meta.dirname, 'consumer', '**/*.mjs'),
     path.resolve(import.meta.dirname, 'stream', '**/*.mjs'),
   ]
 })
