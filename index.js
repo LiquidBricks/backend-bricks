@@ -3,8 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import cron from 'node-cron'
 import { createServer } from 'node:http'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { schema } from '@liquid-bricks/iface-graphql/schema';
 import { Consumer as orchestrator } from '@liquid-bricks/svc-component-orchestrator/consumer';
 import { collector } from '@liquid-bricks/obs-collector/collector';
@@ -19,10 +17,6 @@ import { serviceConfiguration } from './provider/serviceConfiguration/dotenv/ind
 import { RetentionPolicy } from '@nats-io/jetstream'
 import { createStream as createGenericStream } from './stream/index.js'
 import { resetNatsFactoryDefaults } from './stream/helper.js';
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const mermaidPagePath = path.join(__dirname, 'docs', 'mermaid.html')
 
 const formattedTimestamp = () => {
   const now = new Date()
@@ -191,10 +185,6 @@ Promise.resolve()
     //   res.type('html');
     //   res.end(ruruHTML({ endpoint: '/graphql' }));
     // });
-
-    app.get('/mermaid', (_req, res) => {
-      res.sendFile(mermaidPagePath);
-    });
 
     const server = createServer(app);
 
